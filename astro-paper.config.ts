@@ -2,7 +2,8 @@ import { defineAstroPaperConfig } from "./src/types/config";
 
 export default defineAstroPaperConfig({
   site: {
-    url: "https://trung.to/",
+    url: "https://trung674.github.io",
+    base: "/trung.to",
     title: "trung.to",
     description: "Personal site and blog of Trung Nguyen.",
     author: "Trung Nguyen",

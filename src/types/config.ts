@@ -1,6 +1,8 @@
 interface SiteConfig {
   /** Deployed URL of the site, e.g. "https://example.com" */
   url: string;
+  /** The base path to deploy to **/
+  base: string;
   /** Blog title shown in header and meta tags */
   title: string;
   /** Short description used in SEO meta and RSS feed */
