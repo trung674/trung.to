@@ -1,6 +1,6 @@
 # trung.to
 
-Personal site and blog of Trung Nguyen, built with [Astro](https://astro.build/).
+Personal site and blog of Trung Nguyen, built with [Astro](https://astro.build/) and [AstroPaper](https://github.com/satnaing/astro-paper) theme
 
 ## Commands
 

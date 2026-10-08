@@ -43,17 +43,13 @@ console.log(`type method: ${type}`);
 
 Let's see the result when I ran the code under the default Windows shell as well as my favourite platform, [Windows Subsystem for Linux aka WSL](https://msdn.microsoft.com/en-us/commandline/wsl/about):
 
-<!-- TODO: restore once part1-result-window.png is added to ./assets
-
 ![os-result-window](./assets/part1-result-window.png)
 
-_Pic 1.1: Windows_
-
--->
+<p class="text-center"><em>Pic 1.1: Windows</em></p>
 
 ![os-result-wsl](./assets/part1-result-wsl.png)
 
-_Pic 1.2: Windows Subsystem for Linux_
+<p class="text-center"><em>Pic 1.2: Windows Subsystem for Linux</em></p>
 
 So it is pretty easy to get some basic information about the CPU architecture, hostname, OS type & system platform. By using the WSL, I was able to test the code in both Linux and Windows environment without much overhead **(thanks Microsoft <3)**.
 
