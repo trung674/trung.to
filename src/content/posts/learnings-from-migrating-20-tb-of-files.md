@@ -8,7 +8,7 @@ tags:
 description: "My experience working on a large scale data migration"
 ---
 
-A problem I worked on recently was to migrate 20 TB of files from an on-premises server to Google Cloud Storage (GCS). The number of files was about 350 million, mostly static files ranging in size from 1 KB to 100 MB. With no prior experience in data migration of this scale, I immediately searched Google for the best solutions to copy files from a local directory to GCS and [rclone](https://rclone.org/) came up as the top result.
+A problem I recently worked on was to migrate 20 TB of files from an on-premises server to Google Cloud Storage (GCS). The number of files was about 350 million, mostly static files ranging in size from 1 KB to 100 MB. With no prior experience in data migration of this scale, I immediately searched Google for the best solutions to copy files from a local directory to GCS and [rclone](https://rclone.org/) came up as the top result.
 
 After jumping between `rclone` docs, I installed the tool on the server and ran `rclone copy`, pointing it at the local directory where the files are located as the source and the private GCS bucket as the destination, along with some additional options such as [no-traverse](https://rclone.org/docs/#no-traverse), [transfers](https://rclone.org/docs/#transfers-int) & [checkers](https://rclone.org/docs/#checkers-int). The result? 5 hours in and the server ran out of memory, crashed then rebooted. The problem was that one of the sub-folder in the source directory had over 100 million files and there wasn't enough RAM on the server for `rclone` to hold the full directory listing.
 
@@ -16,20 +16,19 @@ I then turned to a different solution, [Google Cloud Storage Transfer Service](h
 
 After much trial and error, I managed to find a suitable strategy using `rclone` and successfully migrated all 20 TB in 3 days. The tips below are valuable lessons I learned throughout the journey and I hope they will be useful for others who are working on similar tasks.
 
-## Tip #1: Sync file activity with new storages
+## Tip #1: Sync file activity across storage locations
 
-Before starting any migration activity, we need to make sure all file changes (create, edit, delete) are applied to both the existing and the new storages. Do this first, and we won't need to worry about file discrepancy during and after the migration.
+Before starting any migration activity, we need to make sure all file changes (create, edit, delete) are applied to both the source and the destination. Do this first, and we won't need to worry about file discrepancy during and after the migration.
 
-## Tip #2: Know the data source
+## Tip #2: Index the data source
 
-It is important to understand the data we are trying to migrate. We must be able to answer at least these basic questions:
+Indexing the source directory will give us a full view of what we will be working on:
+- the directory structure
+- the file types
+- the total number of files
+- the smallest and the the largest file
 
-- What file types are we working on?
-- What does the directory structure look like?
-- How many files are there in total?
-- What is the smallest and largest file?
-
-Utilize local Unix tools such as `find` to explore the directory, `wc` for file count, `sort` for finding file with smallest/largest size, `awk` & `sed` for editing. These tools are battle-tested and fast, chaining them together will help create an index file listing every files inside the source directory. <u>This index file will be the source of truth for all future tasks to be carried out.</u>
+Utilize local CLI tools such as `find` to explore the directory, `wc` for file count, `sort` for finding file with smallest/largest size, `awk` & `sed` for editing. These tools are battle-tested and fast, chaining them together will help create an index file listing every files inside the source directory in whatever format we want. <u>This index file will be the source of truth for all future tasks to be carried out.</u>
 
 ## Tip #3: Exclude unwanted files
 
@@ -39,7 +38,7 @@ Unless there is a serious business requirement, signed off by relevant stakehold
 
 ## Tip #4: Divide and conquer
 
-A large index file of hundreds of millions of lines passing to `rclone` via [files-from](https://rclone.org/filtering/#files-from-read-list-of-source-file-names) option would cause it to choke trying to load it in memory if there isn't enough RAM on the machine. Instead, split the index file into smaller chunks using `split`, then start one `rclone` process for each chunk using `xargs`. This approach has several benefits:
+A large index file of hundreds of millions of lines, passing to `rclone` via [files-from](https://rclone.org/filtering/#files-from-read-list-of-source-file-names) option, would cause the tool to choke trying to load the file content in memory if there isn't enough RAM on the machine. Instead, split the index file into smaller chunks using `split`, then start one `rclone` process for each chunk using `xargs`. This approach has several benefits:
 
 - **Maximizing the throughput**: Multiple processes can copy multiple files at the same time. The number of concurrent copies can be increased further by tuning `transfers` option.
 - **Failures cost less:** If a process crashes, gets throttled, or the machine reboots, we only re-run on that chunk.
@@ -66,6 +65,6 @@ Always prepare a verification plan to confirm that all files are copied successf
 >
 > We could add extra info to the indexes such as file checksum to also verify the file integrity between the source and the destination.
 
-What checks required depend on the file type. Having a concrete plan at the beginning will save us a lot of time and give us the confidence to say:
+What checks required depend on the file types. Having a concrete verification plan will save us a lot of time and give us the confidence to say:
 
 **"The migration is completed!"**
