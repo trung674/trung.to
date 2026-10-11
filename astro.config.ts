@@ -25,8 +25,9 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
+      // Listing/utility pages are noindex, so keep them out of the sitemap too
       filter: page =>
-        config.features?.showArchives !== false || !page.endsWith("/archives/"),
+        !/\/(search|archives|tags)\//.test(new URL(page).pathname),
     }),
   ],
   i18n: {

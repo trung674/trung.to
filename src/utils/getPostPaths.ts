@@ -50,3 +50,16 @@ export function getPostUrl(
 ): string {
   return getRelativeLocaleUrl(locale, `posts/${getPostSlugPath(id, filePath)}`);
 }
+
+/**
+ * Returns the URL of the raw markdown version of a post, served by
+ * `src/pages/posts/[...slug].md.ts`.
+ * e.g. `/posts/my-post.md`
+ */
+export function getPostMarkdownUrl(
+  id: string,
+  filePath: string | undefined,
+  locale: string | undefined = config.site.lang
+): string {
+  return `${getPostUrl(id, filePath, locale).replace(/\/+$/, "")}.md`;
+}

@@ -5,7 +5,8 @@ export default defineAstroPaperConfig({
     url: "https://trung.to",
     base: "/",
     title: "trung.to",
-    description: "Personal site and blog of Trung Nguyen.",
+    description:
+      "Personal site of Trung Nguyen, writing about software development, technology and life.",
     author: "Trung Nguyen",
     profile: "https://trung.to/",
     lang: "en",

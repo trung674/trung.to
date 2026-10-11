@@ -16,7 +16,8 @@ export async function GET() {
       link: getPostUrl(id, filePath, config.site.lang),
       title: data.title,
       description: data.description,
-      pubDate: new Date(data.modDatetime ?? data.pubDatetime),
+      pubDate: data.pubDatetime,
+      categories: data.tags,
     })),
   });
 }

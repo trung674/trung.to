@@ -4,11 +4,10 @@ pubDatetime: 2026-10-11
 tags:
   - rclone
   - google-cloud-storage
-  - google-cloud-platform
-description: "My experience working on a large scale data migration"
+description: "Six lessons from migrating 20 TB of files from On-Premise to Cloud with rclone."
 ---
 
-A problem I recently worked on was to migrate 20 TB of files from an on-premises server to Google Cloud Storage (GCS). The number of files was about 350 million, mostly static files ranging in size from 1 KB to 100 MB. With no prior experience in data migration of this scale, I immediately searched Google for the best solutions to copy files from a local directory to GCS and [rclone](https://rclone.org/) came up as the top result.
+A problem I recently worked on was to migrate 20 TB of files from an on-premises server to Google Cloud Storage (GCS). The dataset was about 350 million static files, ranging in size from 1 KB to 100 MB. With no prior experience in data migration of this scale, I immediately searched Google for the best solutions to copy files from a local directory to GCS and [rclone](https://rclone.org/) came up as the top result.
 
 After jumping between `rclone` docs, I installed the tool on the server and ran `rclone copy`, pointing it at the local directory where the files are located as the source and the private GCS bucket as the destination, along with some additional options such as [no-traverse](https://rclone.org/docs/#no-traverse), [transfers](https://rclone.org/docs/#transfers-int) & [checkers](https://rclone.org/docs/#checkers-int). The result? 5 hours in and the server ran out of memory, crashed then rebooted. The problem was that one of the sub-folder in the source directory had over 100 million files and there wasn't enough RAM on the server for `rclone` to hold the full directory listing.
 

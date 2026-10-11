@@ -5,6 +5,7 @@ import Header from "@/components/Header.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import Main from "@/components/Main.astro";
 import Footer from "@/components/Footer.astro";
+import { getPersonSchema } from "@/utils/getPersonSchema";
 import config from "@/config";
 
 const about = await getEntry("pages", "about");
@@ -16,6 +17,14 @@ if (!about) {
 }
 
 const { Content } = await render(about);
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  name: `${about.data.title} | ${config.site.title}`,
+  mainEntity: getPersonSchema(),
+};
 ---
 
 <Layout
@@ -24,6 +33,13 @@ const { Content } = await render(about);
   ogImage={about.data.ogImage}
   canonicalURL={about.data.canonicalURL}
 >
+  <script
+    slot="head"
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(structuredData)}
+  />
+
   <Header />
 
   <Breadcrumb />

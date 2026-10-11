@@ -4,10 +4,10 @@ pubDatetime: 2017-08-27T22:40:32.169Z
 tags:
   - nodejs
   - javascript
-description: "Collect Network info and CPU usage with Node.js OS API"
+description: "Part 2 of 2: read network interfaces and calculate CPU usage with the built-in Node.js os module"
 ---
 
-Welcome to the second part of the series, where I will show you how to get the network and CPU information of your machines with the Node.js OS API. If you have not read the first part which introduces you to the OS API yet, you can find it [here](/posts/playing-with-nodejs-part-1/).
+Welcome to the second part of the series, where I will show you how to get the network and CPU information of your machines with the Node.js OS API. If you have not read the first part which introduces you to the OS API yet, start with [part 1: operating system and RAM information](/posts/playing-with-nodejs-part-1/).
 
 ## Collect network information
 
@@ -24,7 +24,7 @@ const interfaces = os.networkInterfaces();
 
 Run the code via the terminal and see the result:
 
-![part-2-network-1](./assets/part-2-network-1.png)
+![Terminal output of os.networkInterfaces() listing all network interfaces](./assets/part-2-network-1.png)
 
 _Pic 1.1: List of network interfaces_
 
@@ -63,7 +63,7 @@ console.log(theChosenOne);
 
 Run the code again and ta-da, I have successfully obtain an object that holds all information that I need such as the public IPv4 address, the MAC address, etc.
 
-![part-2-network-2](./assets/part-2-network-2.png)
+![Terminal output showing the filtered external IPv4 network interface](./assets/part-2-network-2.png)
 
 _Pic 1.2: The final result._
 
@@ -85,7 +85,7 @@ console.log(cpus);
 
 Run the `index.js` file via the terminal:
 
-![part-2-cpu-1](./assets/part-2-cpu-1.png)
+![Terminal output of os.cpus() showing model, speed and times for each core](./assets/part-2-cpu-1.png)
 
 _Pic 2.1: CPU information._
 
@@ -93,7 +93,7 @@ From the `model` attribute, we can already deduce the CPU model which, on my mac
 
 The `times` attribute contains some interesting numbers and the documentation did explain a bit about what these numbers are so I will not talk about their meanings here; instead, I will show you how to calculate the almost-real-time CPU usage and it should be somewhat close to the CPU utilisation number as shown in the Task Manager.
 
-![part-2-cpu-2](./assets/part-2-cpu-2.png)
+![Windows Task Manager showing CPU utilisation](./assets/part-2-cpu-2.png)
 
 _Pic 2.2: Task Manager._
 
@@ -144,7 +144,7 @@ function getCpuData() {
 
 Due to many factors such as GUI delay, the result after running the code is usually not the same CPU utilisation number as shown in the Task Manager, but it should acceptably be close enough.
 
-![part-2-cpu-3](./assets/part-2-cpu-3.png)
+![Terminal output of the calculated CPU usage percentage](./assets/part-2-cpu-3.png)
 
 _Pic 2.3: The CPU usage output._
 

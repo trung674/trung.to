@@ -1,43 +1,78 @@
 ---
 import Layout from "./Layout.astro";
+import { getPersonSchema } from "@/utils/getPersonSchema";
+import { useTranslations } from "@/i18n";
 import config from "@/config";
 
 type Props = {
   title?: string;
+  /** Bare post title, without the site name suffix */
+  headline?: string;
   description?: string;
   ogImage?: string;
   canonicalURL?: string;
   pubDatetime?: Date;
   modDatetime?: Date | null;
+  tags?: string[];
+  /** Root-relative URL of the raw markdown version of the post */
+  markdownPath?: string;
 };
 
 const { site } = config;
 
-const { title, description, ogImage, canonicalURL, pubDatetime, modDatetime } =
-  Astro.props;
+const {
+  title,
+  headline,
+  description,
+  ogImage,
+  canonicalURL,
+  pubDatetime,
+  modDatetime,
+  tags = [],
+  markdownPath,
+} = Astro.props;
+
+const locale = Astro.currentLocale ?? site.lang;
+const t = useTranslations(locale);
+
+const pageURL = canonicalURL ?? new URL(Astro.url.pathname, Astro.site).href;
+const author = getPersonSchema();
 
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  headline: title ?? site.title,
+  headline: headline ?? title ?? site.title,
+  ...(description && { description }),
+  url: pageURL,
+  mainEntityOfPage: { "@type": "WebPage", "@id": pageURL },
   image: ogImage,
-  ...(pubDatetime && { datePublished: pubDatetime.toISOString() }),
-  ...(modDatetime && { dateModified: modDatetime.toISOString() }),
-  author: [
-    {
-      "@type": "Person",
-      name: site.author,
-      ...(site.profile && { url: site.profile }),
-    },
-  ],
+  inLanguage: locale,
+  ...(tags.length > 0 && { keywords: tags.join(", ") }),
+  ...(pubDatetime && {
+    datePublished: pubDatetime.toISOString(),
+    dateModified: (modDatetime ?? pubDatetime).toISOString(),
+  }),
+  author: [author],
+  publisher: author,
+};
+
+const breadcrumbData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { name: site.title, item: new URL("/", Astro.site).href },
+    { name: t.pages.postsTitle, item: new URL("/posts/", Astro.site).href },
+    { name: headline ?? title ?? site.title, item: pageURL },
+  ].map((crumb, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    ...crumb,
+  })),
 };
 ---
 
-<Layout {title} {description} {ogImage} {canonicalURL}>
+<Layout {title} {description} {ogImage} {canonicalURL} ogType="article">
   <Fragment slot="head">
-    <!-- Override og:type for article pages -->
-    <meta property="og:type" content="article" />
-
     {
       pubDatetime && (
         <meta
@@ -54,11 +89,28 @@ const structuredData = {
         />
       )
     }
+    <meta property="article:author" content={site.author} />
+    {tags.map(tag => <meta property="article:tag" content={tag} />)}
+
+    {
+      markdownPath && (
+        <link
+          rel="alternate"
+          type="text/markdown"
+          href={new URL(markdownPath, Astro.site)}
+        />
+      )
+    }
 
     <script
       type="application/ld+json"
       is:inline
       set:html={JSON.stringify(structuredData)}
+    />
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(breadcrumbData)}
     />
   </Fragment>
 

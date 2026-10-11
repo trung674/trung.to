@@ -4,7 +4,7 @@ pubDatetime: 2017-01-20T22:40:32.169Z
 tags:
   - nodejs
   - javascript
-description: "Collect OS info and RAM usage with Node.js OS API"
+description: "Part 1 of 2: read operating system info and calculate RAM usage with the built-in Node.js os module"
 ---
 
 Nowadays, Node.js is everywhere, from frontend, backend, IoT to embedded systems (check out the recent [survey report](https://nodejs.org/static/documents/casestudies/Nodejs_2017_User_Survey_Exec_Summary.pdf) from the Node.js Foundation), all thanks to thousands of super useful open-source libraries. But what task can Node.js handle quickly without using any library? I looked at the Node.js documentation and the answer was this little gem, the [OS API](https://nodejs.org/api/os.html#os_os_freemem).
@@ -43,11 +43,11 @@ console.log(`type method: ${type}`);
 
 Let's see the result when I ran the code under the default Windows shell as well as my favourite platform, [Windows Subsystem for Linux aka WSL](https://msdn.microsoft.com/en-us/commandline/wsl/about):
 
-![os-result-window](./assets/part1-result-window.png)
+![Operating system information printed by Node.js in the Windows shell](./assets/part1-result-window.png)
 
 <p class="text-center"><em>Pic 1.1: Windows</em></p>
 
-![os-result-wsl](./assets/part1-result-wsl.png)
+![Operating system information printed by Node.js in Windows Subsystem for Linux](./assets/part1-result-wsl.png)
 
 <p class="text-center"><em>Pic 1.2: Windows Subsystem for Linux</em></p>
 
@@ -93,6 +93,6 @@ The code is pretty straightforward:
 
 And that is it for part 1 of the series. You now know how to obtain some basic info about the underlying operating system and RAM of your computers without having to install any external library.
 
-This is my first time writing an article so many people might find my style boring and not coherent. Because of that, I would be very appreciated if you could give me some advices on what I should correct or improve (grammar, writing style, code, etc). If you are still interested in this series, you can find part 2 [here](/posts/playing-with-nodejs-part-2/).
+This is my first time writing an article so many people might find my style boring and not coherent. Because of that, I would be very appreciated if you could give me some advices on what I should correct or improve (grammar, writing style, code, etc). If you are still interested in this series, continue with [part 2: network and CPU information](/posts/playing-with-nodejs-part-2/).
 
 Thank you for reading ❤️
