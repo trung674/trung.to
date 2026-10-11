@@ -4,7 +4,7 @@ pubDatetime: 2017-08-27T22:40:32.169Z
 tags:
   - nodejs
   - javascript
-description: "Exploring what we can do with Node.js OS API (continued)."
+description: "Collect Network info and CPU usage with Node.js OS API"
 ---
 
 Welcome to the second part of the series, where I will show you how to get the network and CPU information of your machines with the Node.js OS API. If you have not read the first part which introduces you to the OS API yet, you can find it [here](/posts/playing-with-nodejs-part-1/).
@@ -154,4 +154,4 @@ We can then use `setInterval` so that this number can be updated, for example, e
 
 That is the end of this series. You now know how to obtain some basic info about the network interfaces as well as the CPU usage of your machines without having to install any external library. The Node.js OS API has many other methods that I did not cover in this series so if you are interested, visit the official documentation [here](https://nodejs.org/api/os.html) to learn more.
 
-Thank you for reading :D
+Thank you for reading ❤️

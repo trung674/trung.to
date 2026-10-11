@@ -68,3 +68,5 @@ Always prepare a verification plan to confirm that all files are copied successf
 What checks required depend on the file types. Having a concrete verification plan will save us a lot of time and give us the confidence to say:
 
 **"The migration is completed!"**
+
+Thank you for reading ❤️

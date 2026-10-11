@@ -4,7 +4,7 @@ pubDatetime: 2017-01-20T22:40:32.169Z
 tags:
   - nodejs
   - javascript
-description: "Exploring what we can do with Node.js OS API."
+description: "Collect OS info and RAM usage with Node.js OS API"
 ---
 
 Nowadays, Node.js is everywhere, from frontend, backend, IoT to embedded systems (check out the recent [survey report](https://nodejs.org/static/documents/casestudies/Nodejs_2017_User_Survey_Exec_Summary.pdf) from the Node.js Foundation), all thanks to thousands of super useful open-source libraries. But what task can Node.js handle quickly without using any library? I looked at the Node.js documentation and the answer was this little gem, the [OS API](https://nodejs.org/api/os.html#os_os_freemem).
