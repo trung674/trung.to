@@ -114,6 +114,35 @@ const rssURL = new URL(getAssetPath("rss.xml"), Astro.site ?? Astro.url);
       })();
     </script>
 
+    {
+      site.goatcounter && (
+        <script
+          is:inline
+          async
+          data-goatcounter={`https://${site.goatcounter}.goatcounter.com/count`}
+          src="https://gc.zgo.at/count.js"
+        />
+      )
+    }
+
+    <!--
+      count.js only counts the initial load, so count ClientRouter
+      navigations here. The first astro:page-load is that initial load.
+      No-op when GoatCounter is disabled or blocked.
+    -->
+    <script is:inline>
+      (function () {
+        let initialLoad = true;
+        document.addEventListener("astro:page-load", () => {
+          if (initialLoad) {
+            initialLoad = false;
+            return;
+          }
+          window.goatcounter?.count?.();
+        });
+      })();
+    </script>
+
     <ClientRouter />
   </head>
   <body

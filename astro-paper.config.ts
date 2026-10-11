@@ -12,6 +12,7 @@ export default defineAstroPaperConfig({
     lang: "en",
     timezone: "Europe/London",
     dir: "ltr",
+    goatcounter: "trungto",
   },
   posts: {
     perPage: 4,

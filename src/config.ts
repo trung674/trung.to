@@ -19,6 +19,7 @@ const config: ResolvedAstroPaperConfig = {
     dir: userConfig.site.dir ?? "ltr",
     googleVerification:
       userConfig.site.googleVerification || PUBLIC_GOOGLE_SITE_VERIFICATION,
+    goatcounter: userConfig.site.goatcounter,
   },
   posts: {
     perPage: userConfig.posts?.perPage ?? 4,
